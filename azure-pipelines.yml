@@ -1,0 +1,56 @@
+trigger:
+  branches:
+    include:
+      - main
+
+schedules:
+  - cron: "0 0 * * *"
+    displayName: Daily midnight build
+    branches:
+      include:
+        - main
+    always: true
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  ANDROID_HOME: $(JAVA_HOME_11_X64)/bin
+  GRADLE_OPTS: "-Dorg.gradle.daemon=false"
+
+steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.x'
+      addToPath: true
+
+  - task: UseJavaVersion@1
+    inputs:
+      versionSpec: '17'
+      jdkArchitecture: 'x64'
+
+  - task: InstallAndroidSDK@1
+    inputs:
+      sdkVersion: 'latest'
+
+  - script: |
+      sudo apt-get update -y
+      sudo apt-get install -y lib32z1 lib32ncurses5 libbz2-1.0:i386
+    displayName: 'Install dependencies'
+
+  - script: ./gradlew assembleDebug
+    displayName: 'Build the app'
+
+  - script: ./gradlew connectedAndroidTest
+    displayName: 'Run UI tests'
+
+  - script: |
+      echo "y" | sdkmanager --install "system-images;android-30;google_apis;x86_64"
+      echo "no" | avdmanager create avd -n test -k "system-images;android-30;google_apis;x86_64" --force
+      emulator -avd test -no-window -no-audio -no-snapshot -accel auto &
+      adb wait-for-device
+      adb shell input keyevent 82 &
+    displayName: 'Set up emulator'
+
+  - script: adb devices
+    displayName: 'Check emulator devices'
