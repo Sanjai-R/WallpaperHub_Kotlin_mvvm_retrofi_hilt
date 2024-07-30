@@ -9,6 +9,7 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.sp
 import com.example.wallpaper.ui.theme.poppinsFont
 import com.example.wallpaper.view.auth.Input
@@ -25,7 +26,8 @@ data class InputField(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ReusableTextField(
-    input: Input, onValueChange: (String) -> Unit,
+    input: Input,testTag:String?="", onValueChange: (String) -> Unit,
+
 ) {
     OutlinedTextField(
 
@@ -44,7 +46,7 @@ fun ReusableTextField(
         },
 
 
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth().testTag(input.testTag),
         colors = TextFieldDefaults.outlinedTextFieldColors(
             containerColor = Color(0xFFF3F5F9),
             unfocusedBorderColor = Color.Transparent,

@@ -35,6 +35,7 @@ data class Input(
     val error: String,
     val isPassword: Boolean,
     val hint: String = "",
+    val testTag: String = "",
 )
 
 @SuppressLint("StateFlowValueCalledInComposition")
@@ -56,14 +57,16 @@ fun Login(navController: NavController) {
             type = "email",
             error = "",
             isPassword = false,
-            hint = "mahi@cric.com"
+            hint = "mahi@cric.com",
+            testTag = "emailFieldTag"
         ), Input(
             label = "Enter Password",
             value = password,
             type = "password",
             error = "",
             isPassword = true,
-            hint = "********"
+            hint = "********",
+            testTag = "passwordFieldTag"
         )
     )
 
@@ -83,7 +86,7 @@ fun Login(navController: NavController) {
             textAlign = TextAlign.Center,
             modifier = Modifier.fillMaxWidth(),
             fontWeight = FontWeight.W800,
-            fontSize = 24.sp
+            fontSize = 24.sp,
         )
         Text(
             text = "Enter your details to access your account",

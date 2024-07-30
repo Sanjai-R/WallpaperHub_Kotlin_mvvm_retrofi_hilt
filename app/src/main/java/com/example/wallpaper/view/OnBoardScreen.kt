@@ -27,6 +27,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -36,6 +37,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.example.wallpaper.R
 import com.example.wallpaper.ui.theme.poppinsFont
+import com.example.wallpaper.view.AutomationIDs.ONBOARD_TEST_TAG
 import compose.icons.EvaIcons
 import compose.icons.evaicons.Fill
 import compose.icons.evaicons.fill.ArrowForward
@@ -102,11 +104,12 @@ fun OnBoardScreen(navController: NavController) {
                     )
                     Button(
                         onClick = {
-                            navController.navigate("login")
+                            navController.navigate("webview")
                         },
                         modifier = Modifier
                             .padding(top = 8.dp)
-                            .fillMaxWidth(),
+                            .fillMaxWidth()
+                            .testTag(ONBOARD_TEST_TAG),
                         shape = MaterialTheme.shapes.medium,
                     ) {
                         Row(

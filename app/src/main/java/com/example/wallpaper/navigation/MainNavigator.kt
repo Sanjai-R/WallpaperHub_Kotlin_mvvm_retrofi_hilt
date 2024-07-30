@@ -18,6 +18,7 @@ import androidx.navigation.navArgument
 import com.example.wallpaper.view.CategoryScreen
 import com.example.wallpaper.view.ExploreScreen
 import com.example.wallpaper.view.HomeScreen
+import com.example.wallpaper.view.InstagramScreen
 import com.example.wallpaper.view.OnBoardScreen
 import com.example.wallpaper.view.SearchScreen
 import com.example.wallpaper.view.PhotoDetail
@@ -52,12 +53,20 @@ sealed class Screen(
         EvaIcons.Outline.Person,
         EvaIcons.Outline.Person
     )
+    object WEBVIEW: Screen(
+        "webview",
+        "WebView",
+        EvaIcons.Outline.Person,
+        EvaIcons.Outline.Person
+    )
+
 }
 sealed class AuthScreen(val route: String, val label: String) {
     object Login : AuthScreen("login", "Login")
     object Register : AuthScreen("register", "Register")
     object Onboard : AuthScreen("onBoard", "OnBoard")
     object MainNav : AuthScreen("home", "MainNav")
+
 }
 
 
@@ -104,7 +113,6 @@ fun MainNavigator(
             println(imageUrl)
             PhotoDetail(url = imageUrl!!, navController)
         }
-
         composable(AuthScreen.Onboard.route) {
             OnBoardScreen(navController)
         }
@@ -113,6 +121,10 @@ fun MainNavigator(
         }
         composable(AuthScreen.Register.route) {
             Register(navController)
+        }
+        
+        composable(Screen.WEBVIEW.route) {
+            InstagramScreen()
         }
 
     }
